@@ -7,27 +7,23 @@
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
+;; Remove toolbar, munbar and make cursor I instead of block
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq-default cursor-type 'bar) 
 
+;; Change theme to thango-dark
+;; M-x customize-themes
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(tango-dark))
  '(package-selected-packages
    '(company dashboard org-bullets switch-window ido-vertical-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(custom-set-faces)
 
+;; Don't make backup files
 (setq make-backup-files nil)
 
+;; ido enabling
 (setq ido-enable-flex-matching t)
 (setq ido-create-new-buffer 'always)
 (setq ido-everywhere t)
@@ -36,13 +32,15 @@
   :ensure t
   :init	(ido-vertical-mode 1))
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
-
-(set-message-beep 'silent)
-
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 (global-set-key (kbd "C-x b") 'ibuffer)
 (setq ibuffer-expert t)
 
+;; Don't make beep sound
+(set-message-beep 'silent)
+
+;; C-c e to visit init.el
+;; C-c r to load init.el
 (defun config-visit()
   (interactive)
   (find-file "~/.emacs.d/init.el"))
@@ -52,6 +50,7 @@
   (org-babel-load-file (expand-file-name "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c r") 'config-reload)
 
+;; Better window management
 (use-package switch-window :ensure t)
 (global-set-key (kbd "C-x o") 'switch-window)
 (global-set-key (kbd "C-x 1") 'switch-window-then-maximize)
@@ -66,12 +65,15 @@
 (global-set-key (kbd "C-x 4 C-o") 'switch-window-then-display-buffer)
 (global-set-key (kbd "C-x 4 0") 'switch-window-then-kill-buffer)
 
+;; Show line numbers
 (global-display-line-numbers-mode 1)
 
+;; Improve org-mode bullets, don't show asterisks
 (use-package org-bullets 
 :ensure t 
 :hook((org-mode) . org-bullets-mode))
 
+;; Use a better startup screen
 (setq inhibit-startup-message t)
 (use-package dashboard
   :ensure t
@@ -84,9 +86,11 @@
                         (registers . 5)))
 (setq dashboard-week-agenda t)
 
+;; auto-completion
 (use-package company
   :ensure t
   :init
   (add-hook ' after-init-hook 'global-company-mode))
 
+;; press RET in order to follow links in org-mode
 (setq org-return-follows-link  t)

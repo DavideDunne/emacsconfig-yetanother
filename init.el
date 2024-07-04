@@ -21,7 +21,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(tango-dark))
  '(package-selected-packages
-   '(elfeed company dashboard org-bullets switch-window ido-vertical-mode)))
+   '(org-journal elfeed company dashboard org-bullets switch-window ido-vertical-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -121,3 +121,22 @@
 ;; Jump line if line is too long in org-mode
 (add-hook 'org-mode-hook #'(lambda () (setq fill-column 80)))
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+
+;; Use org-journal
+(use-package org-journal
+  :ensure t
+  :defer t
+  :init
+  ;; Change default prefix key; needs to be set before loading org-journal
+  (setq org-journal-prefix-key "C-c j ")
+  :config
+  (setq org-journal-dir "~/.emacs.d/org-mode/journal"
+	;; Date format with day of the week, day of month, month name, year (Thursday, 04 July 2024)
+        org-journal-date-format "%A, %d %B %Y"
+	;; file format with number of week, day of month, month name, year (Ex. W27-01-Jul-2024.org)
+	org-journal-file-format "W%W-%d-%b-%Y.org"
+	;; will create a new org file each week
+	org-journal-file-type 'weekly))
+(global-set-key (kbd "C-c j n") 'org-journal-new-entry)
+
+(setq org-display-inline-images t)

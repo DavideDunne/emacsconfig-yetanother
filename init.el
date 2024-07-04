@@ -15,10 +15,19 @@
 ;; Change theme to thango-dark
 ;; M-x customize-themes
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(tango-dark))
  '(package-selected-packages
-   '(company dashboard org-bullets switch-window ido-vertical-mode)))
-(custom-set-faces)
+   '(elfeed company dashboard org-bullets switch-window ido-vertical-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 ;; Don't make backup files
 (setq make-backup-files nil)
@@ -94,3 +103,21 @@
 
 ;; press RET in order to follow links in org-mode
 (setq org-return-follows-link  t)
+
+;; Add RSS to Emacs
+(use-package elfeed
+  :ensure t
+  :init (elfeed-update))
+(global-set-key (kbd "C-x w") 'elfeed)
+(setq elfeed-feeds
+      '(("https://www.informador.mx/rss/jalisco.xml" Informador)
+	("https://www.informador.mx/rss/mexico.xml" Informador)
+	("http://www.npr.org/rss/rss.php?id=1001" NPR)
+	("https://stallman.org/rss/rss.xml" Stallman)
+	("https://protesilaos.com/master.xml" Protesilaos)
+	("https://hnrss.org/frontpage" HN)
+	("https://notxor.nueva-actitud.org/rss.xml" Noxtor)))
+
+;; Jump line if line is too long in org-mode
+(add-hook 'org-mode-hook #'(lambda () (setq fill-column 80)))
+(add-hook 'org-mode-hook 'turn-on-auto-fill)

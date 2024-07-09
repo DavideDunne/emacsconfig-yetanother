@@ -152,3 +152,9 @@
 
 ;; Where should org-agenda be getting it's schedules from
 (setq org-agenda-files (directory-files-recursively "~/.emacs.d/org-mode" "\\.org$"))
+
+;; Don't make insert enable overwrite
+(define-key global-map [(insertchar)] nil)
+
+;; Auto-fill mode automatic in org-mode
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
